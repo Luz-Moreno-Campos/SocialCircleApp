@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialCircle.DAL
 {
-    internal class UserRepository
+    public class UserRepository
     {
     }
 }

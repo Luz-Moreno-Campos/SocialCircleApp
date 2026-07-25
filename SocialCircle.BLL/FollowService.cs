@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialCircle.BLL
 {
-    internal class FollowService
+    public class FollowService
     {
     }
 }

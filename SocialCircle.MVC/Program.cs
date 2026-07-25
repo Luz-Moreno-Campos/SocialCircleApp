@@ -1,3 +1,7 @@
+using SocialCircle.BLL;
+using SocialCircle.DAL;
+using SocialCircle.MVC.Models;
+
 namespace SocialCircle.MVC
 {
     public class Program
@@ -8,6 +12,17 @@ namespace SocialCircle.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            
+            builder.Services.AddDbContext<SocialCircleContext>();
+
+            
+            builder.Services.AddTransient<UserRepository>();
+            builder.Services.AddTransient<FollowRepository>();
+
+            
+            builder.Services.AddTransient<UserService>();
+            builder.Services.AddTransient<FollowService>();
 
             var app = builder.Build();
 
