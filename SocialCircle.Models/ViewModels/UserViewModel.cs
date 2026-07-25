@@ -1,6 +1,6 @@
 ﻿using SocialCircle.Models;
 
-namespace SocialCircle.MVC.Models
+namespace SocialCircle.Models.ViewModels
 {
     public class UserViewModel
     {
@@ -11,4 +11,4 @@ namespace SocialCircle.MVC.Models
         public List<User> Following { get; set; }
     }
 }
-}
+

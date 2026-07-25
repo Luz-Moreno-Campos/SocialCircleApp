@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialCircle.BLL;
-using SocialCircle.MVC.Models;
+using SocialCircle.Models.ViewModels;
 
 namespace SocialCircle.MVC.Controllers
 {
@@ -16,13 +16,13 @@ namespace SocialCircle.MVC.Controllers
         }
 
 
-        // GET: /User/Login
+        
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /User/Login
+        
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
@@ -34,13 +34,22 @@ namespace SocialCircle.MVC.Controllers
                 return View(model);
             }
 
-            HttpContext.Session.SetInt32("CurrentUserId", user.UserId);
+            HttpContext.Session.SetInt32("CurrentUserId", (int)user.UserId);
 
             return RedirectToAction("Profile", new { id = user.UserId });
         }
-        public IActionResult Index()
+
+        public IActionResult Profile(long id)
         {
-            return View();
+            var vm = _userService.GetProfile(id);
+
+            if (vm == null)
+                
+                return NotFound();
+
+            return View(vm);
         }
+
+      
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SocialCircle.MVC.Models
+﻿using SocialCircle.Models;
+
+namespace SocialCircle.Models.ViewModels
 {
     public class LoginViewModel
     {
