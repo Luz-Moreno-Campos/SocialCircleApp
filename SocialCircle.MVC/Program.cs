@@ -13,7 +13,10 @@ namespace SocialCircle.MVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            
+            builder.Services.AddSession();
+            builder.Services.AddHttpContextAccessor();
+
+
             builder.Services.AddDbContext<SocialCircleContext>();
 
             
@@ -38,6 +41,8 @@ namespace SocialCircle.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 
