@@ -16,6 +16,13 @@ namespace SocialCircle.DAL
             _context = context;
         }
 
+
+        public User ValidateLogin(string username, string password)
+        {
+            return _context.Users
+                .FirstOrDefault(u => u.UserName == username && u.Password == password);
+        }
+
     }
 
 }
