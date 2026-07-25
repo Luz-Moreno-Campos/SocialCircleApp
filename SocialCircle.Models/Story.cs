@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SocialCircle.MVC.Models;
+namespace SocialCircle.Models;
 
 public partial class Story
 {

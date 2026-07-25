@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using SocialCircle.Models;
 
-namespace SocialCircle.MVC.Models;
+namespace SocialCircle.DAL;
 
 public partial class SocialCircleContext : DbContext
 {
