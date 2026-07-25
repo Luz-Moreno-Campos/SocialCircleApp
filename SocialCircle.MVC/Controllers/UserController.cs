@@ -16,7 +16,7 @@ namespace SocialCircle.MVC.Controllers
         }
 
 
-        
+        [HttpGet] 
         public IActionResult Login()
         {
             return View();
@@ -39,6 +39,8 @@ namespace SocialCircle.MVC.Controllers
             return RedirectToAction("Profile", new { id = user.UserId });
         }
 
+
+        [HttpGet]
         public IActionResult Profile(long id)
         {
             var vm = _userService.GetProfile(id);
