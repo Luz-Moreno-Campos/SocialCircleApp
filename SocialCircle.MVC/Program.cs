@@ -1,6 +1,6 @@
 using SocialCircle.BLL;
 using SocialCircle.DAL;
-using SocialCircle.MVC.Models;
+using SocialCircle.Models;
 
 namespace SocialCircle.MVC
 {
