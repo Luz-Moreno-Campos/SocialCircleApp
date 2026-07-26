@@ -31,16 +31,19 @@ namespace SocialCircle.BLL
             return username.Substring(0, 1).ToUpper();
         }
 
-        public UserViewModel GetProfile(long userId)
+        public UserViewModel GetProfile(long userId, long currentUserId)
         {
             var user = _userRepository.GetUserById((int)userId);
 
             if (user == null)
                 return null;
 
-            //var posts = _postRepository.GetPostsByUser(userId);
             var followers = _followRepository.GetFollowers(userId);
             var following = _followRepository.GetFollowing(userId);
+
+         
+            bool isOwnProfile = (currentUserId == userId);
+            bool isFollowing = _followRepository.IsFollowing(currentUserId, userId);
 
             return new UserViewModel
             {
@@ -49,15 +52,18 @@ namespace SocialCircle.BLL
                 Initials = GetInitial(user.UserName),
                 Bio = user.Bio,
 
-                //PostCount = posts.Count(),
                 FollowersCount = followers.Count(),
                 FollowingCount = following.Count(),
 
-                //Posts = posts.ToList(),
                 Followers = followers.ToList(),
-                Following = following.ToList()
+                Following = following.ToList(),
+
+               
+                IsOwnProfile = isOwnProfile,
+                IsFollowing = isFollowing
             };
         }
+
 
         public List<User> GetFollowersService(long userId)
         {

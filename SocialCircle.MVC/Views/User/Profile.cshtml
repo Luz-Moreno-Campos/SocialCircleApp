@@ -2,7 +2,7 @@
 
 <div class="container mt-4">
 
-    <!-- Header del usuario -->
+  
     <div class="d-flex align-items-center gap-3 mb-4">
         <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
              style="width: 70px; height: 70px; font-size: 28px;">
@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <!-- Contadores -->
+  
     <div class="d-flex gap-4 mb-4">
 
         <a href="/User/Followers/@Model.UserId" class="text-decoration-none">
@@ -33,24 +33,26 @@
 
     <hr />
 
-    <!-- Posts -->
-    <h4 class="mb-3">Posts</h4>
-
-    @if (Model.Posts != null && Model.Posts.Any())
+    @if (!Model.IsOwnProfile)
     {
-        foreach (var post in Model.Posts)
+        if (Model.IsFollowing)
         {
-            <div class="card mb-3">
-                <div class="card-body">
-                    <p>@post.Content</p>
-                    <small class="text-muted">@post.PostTimeStamp</small>
-                </div>
-            </div>
+            <form method="post" action="/User/Unfollow">
+                <input type="hidden" name="targetId" value="@Model.UserId" />
+                <button class="btn btn-danger">Unfollow</button>
+            </form>
+        }
+        else
+        {
+            <form method="post" action="/User/Follow">
+                <input type="hidden" name="targetId" value="@Model.UserId" />
+                <button class="btn btn-primary">Follow</button>
+            </form>
         }
     }
-    else
-    {
-        <p class="text-muted">This user has no posts yet.</p>
-    }
+
+
+    <!-- Aca va Posts agregar cuando este hecho -->
+
 
 </div>
