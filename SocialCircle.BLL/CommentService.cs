@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SocialCircle.DAL;
+using SocialCircle.Models;
 
 namespace SocialCircle.BLL
 {
-    internal class CommentService
+    public class CommentService
     {
+        private readonly CommentRepository _commentRepository;
+
+        public CommentService(CommentRepository commentRepository)
+        {
+            _commentRepository = commentRepository;
+        }
+
+        public async Task AddCommentAsync(Comment comment)
+        {
+            comment.CommentTimeStamp = DateTime.Now;
+            await _commentRepository.AddCommentAsync(comment);
+        }
+
+        public Task DeleteCommentAsync(int id) => _commentRepository.DeleteCommentAsync(id);
     }
 }

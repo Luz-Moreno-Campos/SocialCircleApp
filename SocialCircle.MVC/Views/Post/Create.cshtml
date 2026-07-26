@@ -1,0 +1,26 @@
+﻿@model SocialCircle.Models.Post
+
+@{
+    ViewData["Title"] = "Create Post";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <h2>Create Post</h2>
+
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="UserId" class="form-label">User ID</label>
+            <input asp-for="UserId" class="form-control" required />
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TextContent" class="form-label">Post Content</label>
+            <textarea asp-for="TextContent" class="form-control" rows="4" placeholder="What's on your mind?" required></textarea>
+            <span asp-validation-for="TextContent" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Publish</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
