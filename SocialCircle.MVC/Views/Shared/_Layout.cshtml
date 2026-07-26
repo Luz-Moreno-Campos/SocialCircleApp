@@ -40,15 +40,20 @@
                         @if (currentUserId != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="/User/Profile/@currentUserId">My Profile</a>
+                                <a class="nav-link" href="/User/Profile/@currentUserId">My Profile</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" href="/User/Logout">Logout</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="/User/Login">Login</a>
+                                <a class="nav-link" href="/User/Login">Login</a>
                             </li>
                         }
+
                        
 
                     </ul>

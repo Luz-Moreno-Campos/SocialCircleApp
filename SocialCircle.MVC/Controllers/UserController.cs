@@ -38,6 +38,14 @@ namespace SocialCircle.MVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
+
+        [HttpGet]
         public IActionResult Profile(long id)
         {
             var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
@@ -80,5 +88,7 @@ namespace SocialCircle.MVC.Controllers
 
             return Redirect("/User/Profile/" + targetId);
         }
+
+
     }
 }
