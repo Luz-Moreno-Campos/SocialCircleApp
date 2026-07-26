@@ -15,14 +15,12 @@ namespace SocialCircle.MVC.Controllers
             _followService = followService;
         }
 
-
-        [HttpGet] 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-        
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
@@ -39,19 +37,31 @@ namespace SocialCircle.MVC.Controllers
             return RedirectToAction("Profile", new { id = user.UserId });
         }
 
-
         [HttpGet]
         public IActionResult Profile(long id)
         {
             var vm = _userService.GetProfile(id);
 
             if (vm == null)
-                
                 return NotFound();
 
             return View(vm);
         }
 
+       
+        [HttpGet]
+        public IActionResult Followers(long id)
+        {
+            var list = _userService.GetFollowersService(id);
+            return View("FollowerView", list);   
+        }
+
       
+        [HttpGet]
+        public IActionResult Following(long id)
+        {
+            var list = _userService.GetFollowingService(id);
+            return View("FollowingView", list); 
+        }
     }
 }

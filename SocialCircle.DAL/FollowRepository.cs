@@ -17,5 +17,23 @@ namespace SocialCircle.DAL
             _context = context;
         }
 
+        public List<User> GetFollowers(long userId)
+        {
+            return _context.Follows
+                .Where(f => f.FollowingId == userId)
+                .Select(f => f.Follower)
+                .ToList();
+        }
+
+        public List<User> GetFollowing(long userId)
+        {
+            return _context.Follows
+                .Where(f => f.FollowerId == userId)
+                .Select(f => f.Following)
+                .ToList();
+        }
+
+
+
     }
 }

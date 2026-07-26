@@ -1,23 +1,24 @@
 ﻿using SocialCircle.DAL;
 using SocialCircle.Models;
 using SocialCircle.Models.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
 
 namespace SocialCircle.BLL
 {
     public class UserService
     {
         private readonly UserRepository _userRepository;
+       // private readonly PostRepository _postRepository;
+        private readonly FollowRepository _followRepository;
 
-        public UserService(UserRepository userRepository)
+        public UserService(UserRepository userRepository,
+                          // PostRepository postRepository,
+                           FollowRepository followRepository)
         {
             _userRepository = userRepository;
+           // _postRepository = postRepository;
+            _followRepository = followRepository;
         }
 
         public User ValidateLogin(string username, string password)
@@ -25,35 +26,47 @@ namespace SocialCircle.BLL
             return _userRepository.ValidateLogin(username, password);
         }
 
+        private string GetInitial(string username)
+        {
+            return username.Substring(0, 1).ToUpper();
+        }
 
         public UserViewModel GetProfile(long userId)
         {
             var user = _userRepository.GetUserById((int)userId);
-            var posts = _userRepository.GetUserPosts((int)userId);
-            var followers = _userRepository.GetFollowers(userId);
-            var following = _userRepository.GetFollowing(userId);
+
+            if (user == null)
+                return null;
+
+            //var posts = _postRepository.GetPostsByUser(userId);
+            var followers = _followRepository.GetFollowers(userId);
+            var following = _followRepository.GetFollowing(userId);
 
             return new UserViewModel
             {
-                User = user,
-                Posts = posts,
-                Followers = followers,
-                Following = following
+                UserId = user.UserId,
+                UserName = user.UserName,
+                Initials = GetInitial(user.UserName),
+                Bio = user.Bio,
+
+                //PostCount = posts.Count(),
+                FollowersCount = followers.Count(),
+                FollowingCount = following.Count(),
+
+                //Posts = posts.ToList(),
+                Followers = followers.ToList(),
+                Following = following.ToList()
             };
         }
 
         public List<User> GetFollowersService(long userId)
         {
-            return _userRepository.GetFollowers(userId);
+            return _followRepository.GetFollowers(userId);
         }
 
         public List<User> GetFollowingService(long userId)
         {
-            return _userRepository.GetFollowing(userId);
+            return _followRepository.GetFollowing(userId);
         }
-
-
-
     }
-
 }
