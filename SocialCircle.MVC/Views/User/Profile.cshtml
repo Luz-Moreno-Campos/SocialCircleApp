@@ -2,7 +2,6 @@
 
 <div class="container mt-4">
 
-  
     <div class="d-flex align-items-center gap-3 mb-4">
         <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
              style="width: 70px; height: 70px; font-size: 28px;">
@@ -15,14 +14,13 @@
         </div>
     </div>
 
-  
     <div class="d-flex gap-4 mb-4">
-
-        <a href="/User/Followers/@Model.UserId" class="text-decoration-none">
+       
+        <a href="/Follow/Followers/@Model.UserId" class="text-decoration-none">
             <strong>@Model.FollowersCount</strong> followers
         </a>
 
-        <a href="/User/Following/@Model.UserId" class="text-decoration-none">
+        <a href="/Follow/Following/@Model.UserId" class="text-decoration-none">
             <strong>@Model.FollowingCount</strong> following
         </a>
 
@@ -37,22 +35,19 @@
     {
         if (Model.IsFollowing)
         {
-            <form method="post" action="/User/Unfollow">
+            <form method="post" action="/Follow/Unfollow">
                 <input type="hidden" name="targetId" value="@Model.UserId" />
                 <button class="btn btn-danger">Unfollow</button>
             </form>
         }
         else
         {
-            <form method="post" action="/User/Follow">
+            <form method="post" action="/Follow/Follow">
                 <input type="hidden" name="targetId" value="@Model.UserId" />
                 <button class="btn btn-primary">Follow</button>
             </form>
         }
     }
 
-
-    <!-- Aca va Posts agregar cuando este hecho -->
-
-
+    <!-- Aquí irán los posts -->
 </div>

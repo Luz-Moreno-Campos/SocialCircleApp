@@ -15,14 +15,12 @@ namespace SocialCircle.DAL
 
         public User ValidateLogin(string username, string password)
         {
-            return _context.Users
-                .FirstOrDefault(u => u.UserName == username && u.Password == password);
+            return _context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
         }
 
         public User GetUserById(int userId)
         {
-            return _context.Users
-                .FirstOrDefault(u => u.UserId == userId);
+            return _context.Users.FirstOrDefault(u => u.UserId == userId);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model List<SocialCircle.Models.User>
 
 <div class="container mt-4">
-    <h3>Followers</h3>
+    <h3>@ViewBag.OwnerName's Followers</h3>   
     <hr />
 
     @foreach (var user in Model)
