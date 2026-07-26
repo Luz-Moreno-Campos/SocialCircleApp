@@ -64,6 +64,11 @@ namespace SocialCircle.BLL
             };
         }
 
+        public User GetUserById(long id)
+        {
+            return _userRepository.GetUserById((int)id);
+        }
+
 
         public List<User> GetFollowersService(long userId)
         {

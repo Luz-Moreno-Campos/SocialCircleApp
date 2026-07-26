@@ -53,8 +53,7 @@ namespace SocialCircle.DAL
 
         public void RemoveFollow(long followerId, long targetId)
         {
-            var follow = _context.Follows
-                .FirstOrDefault(f => f.FollowerId == followerId && f.FollowingId == targetId);
+            var follow = _context.Follows.FirstOrDefault(f => f.FollowerId == followerId && f.FollowingId == targetId);
 
             if (follow != null)
             {
@@ -62,8 +61,6 @@ namespace SocialCircle.DAL
                 _context.SaveChanges();
             }
         }
-
-
 
 
     }
