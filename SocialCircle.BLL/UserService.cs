@@ -26,6 +26,23 @@ namespace SocialCircle.BLL
             return _userRepository.ValidateLogin(username, password);
         }
 
+        public bool RegisterUser(string username, string email, string password)
+        {
+            
+            if (_userRepository.GetUserByEmail(email) != null)
+                return false;
+
+            var user = new User
+            {
+                UserName = username,
+                Email = email,
+                Password = password 
+            };
+
+            _userRepository.CreateUser(user);
+            return true;
+        }
+
         private string GetInitial(string username)
         {
             return username.Substring(0, 1).ToUpper();

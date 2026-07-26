@@ -1,23 +1,37 @@
 ﻿@model SocialCircle.Models.ViewModels.LoginViewModel
 
-<h2>Login</h2>
+<div class="container mt-5" style="max-width: 400px;">
+    <h2 class="text-center">Login</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
 
-<form asp-action="Login" method="post">
-    <div>
-        <label asp-for="UserName">User Name</label>
-        <input asp-for="UserName" class="form-control" />
-    </div>
+   
 
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-    </div>
+    <form asp-action="Login" method="post">
+        <div>
+            <label asp-for="UserName">User Name</label>
+            <input asp-for="UserName" class="form-control" />
+        </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Login</button>
+        <div>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" type="password" class="form-control" />
+        </div>
 
-</form>
+        <button type="submit" class="btn btn-primary mt-3 w-100">Login</button>
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger mt-3">
+                @ViewBag.Error
+            </div>
+        }
+    </form>
+</div>
 
-@if (ViewBag.Error != null)
-{
-    <p style="color:red">@ViewBag.Error</p>
-}
+
+
+
