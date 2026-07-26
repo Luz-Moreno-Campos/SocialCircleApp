@@ -1,0 +1,22 @@
+﻿@model List<SocialCircle.Models.User>
+
+<div class="container mt-4">
+    <h3>Followers</h3>
+    <hr />
+
+    @foreach (var user in Model)
+    {
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="rounded-circle bg-success text-white d-flex justify-content-center align-items-center"
+                 style="width: 50px; height: 50px; font-size: 20px;">
+                @user.UserName.Substring(0, 1).ToUpper()
+            </div>
+
+            <a href="/User/Profile/@user.UserId" class="text-decoration-none">
+                @user.UserName
+            </a>
+        </div>
+    }
+</div>
+
+
