@@ -9,15 +9,15 @@ namespace SocialCircle.BLL
     public class UserService
     {
         private readonly UserRepository _userRepository;
-       // private readonly PostRepository _postRepository;
+        private readonly PostRepository _postRepository;
         private readonly FollowRepository _followRepository;
 
         public UserService(UserRepository userRepository,
-                          // PostRepository postRepository,
+                           PostRepository postRepository,
                            FollowRepository followRepository)
         {
             _userRepository = userRepository;
-           // _postRepository = postRepository;
+            _postRepository = postRepository;
             _followRepository = followRepository;
         }
 
@@ -83,7 +83,7 @@ namespace SocialCircle.BLL
 
         public User GetUserById(long id)
         {
-            return _userRepository.GetUserById((int)id);
+            return _userRepository.GetUserById(id);
         }
 
 

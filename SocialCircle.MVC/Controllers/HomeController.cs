@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using SocialCircle.BLL;
+using SocialCircle.Models;
 using SocialCircle.MVC.Models;
 using System.Diagnostics;
 
@@ -7,15 +9,26 @@ namespace SocialCircle.MVC.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly PostService _postService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, PostService postService)
         {
             _logger = logger;
+            _postService = postService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
+
+            if (currentUserId == null)
+            {
+                return View();
+            }
+
+            
+            var posts = await _postService.GetAllPostsAsync();
+            return View(posts);
         }
 
         public IActionResult Privacy()

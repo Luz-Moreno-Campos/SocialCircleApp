@@ -49,5 +49,43 @@
         }
     }
 
-    <!-- Aquí irán los posts -->
+    <h4 class="mb-3">Posts</h4>
+
+    @if (Model.Posts != null && Model.Posts.Any())
+    {
+        foreach (var post in Model.Posts)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p>@post.TextContent</p>
+                    <small class="text-muted">@post.PostTimeStamp</small>
+
+                    @if (post.Comments != null && post.Comments.Any())
+                    {
+                        <div class="mt-3 ps-3 border-start">
+                            <h6>Comments (@post.Comments.Count)</h6>
+
+                            @foreach (var comment in post.Comments)
+                            {
+                                <div class="mb-2">
+                                    <p>@comment.CommentText</p>
+                                    <small class="text-muted">@comment.CommentTimeStamp.ToString("g")</small>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mt-2">No comments yet.</p>
+                    }
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        <p class="text-muted">This user has no posts yet.</p>
+    }
+
 </div>
