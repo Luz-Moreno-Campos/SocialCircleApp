@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model SocialCircle.MVC.Models.DirectMessage
+
+<h2>Send Direct Message</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label asp-for="SenderId"></label>
+        <input asp-for="SenderId" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ReceiverId"></label>
+        <input asp-for="ReceiverId" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MessageText"></label>
+        <textarea asp-for="MessageText" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Send</button>
+
+</form>

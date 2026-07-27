@@ -3,7 +3,7 @@ using SocialCircle.MVC.Models;
 
 namespace SocialCircle.MVC.Controllers
 {
-    public class LikesController1 : Controller
+    public class LikesController : Controller
     {
         private static List<Like> likes = new List<Like>
         {
