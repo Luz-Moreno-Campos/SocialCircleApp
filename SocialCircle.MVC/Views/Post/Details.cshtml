@@ -1,0 +1,64 @@
+﻿@model SocialCircle.Models.Post
+
+@{
+    ViewData["Title"] = "Post Details";
+}
+
+<div class="container mt-4" style="max-width: 700px;">
+    <a asp-action="Index" class="btn btn-outline-secondary mb-3">&larr; Back to Posts</a>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="fw-bold">
+                <a asp-controller="User" asp-action="Profile" asp-route-id="@Model.UserId" class="text-decoration-none">
+                    @@@(Model.User?.UserName ?? "Unknown User")
+                </a>
+            </h5>
+            <p class="fs-5">@Model.TextContent</p>
+            <small class="text-muted">@Model.PostTimeStamp.ToString("f")</small>
+        </div>
+    </div>
+
+    <h4>Comments</h4>
+
+    <ul class="list-group mb-4">
+        @if (Model.Comments != null && Model.Comments.Any())
+        {
+            @foreach (var comment in Model.Comments)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>@@@(comment.User?.UserName ?? "User"):</strong> @comment.CommentText
+                        <br />
+                        <small class="text-muted">@comment.CommentTimeStamp.ToString("g")</small>
+                    </div>
+                    <form asp-action="DeleteComment" method="post">
+                        <input type="hidden" name="id" value="@comment.CommentId" />
+                        <input type="hidden" name="postId" value="@Model.PostId" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="list-group-item text-muted">No comments recorded yet.</li>
+        }
+    </ul>
+
+    <div class="card p-3 bg-light">
+        <h5>Add a Comment</h5>
+        <form asp-action="AddComment" method="post">
+            <input type="hidden" name="postId" value="@Model.PostId" />
+            <div class="mb-2">
+                <label for="userId" class="form-label">User ID</label>
+                <input type="number" name="userId" class="form-control" required />
+            </div>
+            <div class="mb-2">
+                <label for="text" class="form-label">Comment Text</label>
+                <textarea name="text" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Submit Comment</button>
+        </form>
+    </div>
+</div>
