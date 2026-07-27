@@ -16,13 +16,14 @@ namespace SocialCircle.DAL
             _context = context;
         }
         
-        public List<Story> GetStory(int id)
+        public void Create (Story story)
         {
-            var thisStory = _context.Stories.Where(x => x.UserId == id).ToList();
-            if (!thisStory.Any())
-            {
-                return null;
-            }
+            _context.Stories.Add(story);
+            _context.SaveChanges();
+        }
+        public Story GetStory(int id)
+        {
+            var thisStory = _context.Stories.FirstOrDefault(x => x.UserId == id);
             return thisStory;
         }
 
@@ -30,6 +31,28 @@ namespace SocialCircle.DAL
         {
             var allStories = _context.Stories.ToList();
             return allStories;
+        }
+
+        public void updateStory(Story updatedStory)
+        {
+            var story = _context.Stories.FirstOrDefault(s => s.UserId == updatedStory.UserId);
+
+            if(story == null) return;
+            
+            story.StoryText = updatedStory.StoryText;
+            story.CreationTimestamp = DateTime.Now;
+
+            _context.SaveChanges();
+        }
+
+        public void deleteStory (int id)
+        {
+            var story = _context.Stories.FirstOrDefault(s => s.UserId == id);
+
+            if (story == null) return;
+
+            _context.Stories.Remove(story);
+            _context.SaveChanges();
         }
     }
 }
