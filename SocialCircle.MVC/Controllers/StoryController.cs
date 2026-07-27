@@ -17,6 +17,10 @@ namespace SocialCircle.MVC.Controllers
         public IActionResult Index(int id)
         {
             var story = _storyService.GetStory(id);
+            if (story == null)
+            {
+                return NotFound();
+            }
             return View(story);
         }
 
@@ -32,6 +36,8 @@ namespace SocialCircle.MVC.Controllers
             {
                 return View(story);
             }
+            story.CreationTimestamp = DateTime.Now;
+            story.ExpirationDate = DateTime.Now.AddHours(24);
             _storyService.Create(story);
             return RedirectToAction("Index");
         }

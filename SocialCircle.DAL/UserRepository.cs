@@ -33,6 +33,5 @@ namespace SocialCircle.DAL
             _context.Users.Add(user);
             _context.SaveChanges();
         }
-
     }
 }

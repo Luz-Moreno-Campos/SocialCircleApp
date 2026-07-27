@@ -23,7 +23,7 @@ namespace SocialCircle.DAL
         }
         public Story GetStory(int id)
         {
-            var thisStory = _context.Stories.FirstOrDefault(x => x.UserId == id);
+            var thisStory = _context.Stories.FirstOrDefault(x => x.User.UserId == id);
             return thisStory;
         }
 
@@ -35,7 +35,7 @@ namespace SocialCircle.DAL
 
         public void updateStory(Story updatedStory)
         {
-            var story = _context.Stories.FirstOrDefault(s => s.UserId == updatedStory.UserId);
+            var story = _context.Stories.FirstOrDefault(s => s.User.UserId == updatedStory.User.UserId);
 
             if(story == null) return;
             
@@ -47,7 +47,7 @@ namespace SocialCircle.DAL
 
         public void deleteStory (int id)
         {
-            var story = _context.Stories.FirstOrDefault(s => s.UserId == id);
+            var story = _context.Stories.FirstOrDefault(s => s.User.UserId == id);
 
             if (story == null) return;
 
