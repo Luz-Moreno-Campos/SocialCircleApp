@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SocialCircle.Models;
 
@@ -9,6 +10,7 @@ public partial class Story
 
     public long UserId { get; set; }
 
+    [Required(ErrorMessage = "Input Story text")]
     public string? StoryText { get; set; }
 
     public DateTime CreationTimestamp { get; set; }
