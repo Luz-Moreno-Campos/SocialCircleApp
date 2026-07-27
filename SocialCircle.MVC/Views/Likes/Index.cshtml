@@ -1,5 +1,27 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<SocialCircle.MVC.Models.Like>
+
+<h2>Likes</h2>
+
+<p>.
+    <a asp-action="Create" class="btn btn-primary">Add Like</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Like ID</th>
+            <th>User ID</th>
+            <th>Post ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.LikeId</td>
+                <td>@item.UserId</td>
+                <td>@item.PostId</td>
+            </tr>
+        }
+    </tbody>
+</table>
