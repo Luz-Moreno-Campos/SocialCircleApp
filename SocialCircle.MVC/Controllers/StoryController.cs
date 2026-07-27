@@ -47,10 +47,13 @@ namespace SocialCircle.MVC.Controllers
             return View(story);
         }
 
-        [HttpPost]
-        public IActionResult Edit (Post updatedPost)
-        {
-            
-        }
+        // [HttpPost]
+        // public IActionResult Edit (Post updatedPost)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+                
+        //     }
+        // }
     }
 }
