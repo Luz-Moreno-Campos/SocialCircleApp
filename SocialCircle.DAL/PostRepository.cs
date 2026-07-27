@@ -18,7 +18,7 @@ namespace SocialCircle.DAL
                 .Include(p => p.User)
                 .Include(p => p.Comments)
                     .ThenInclude(c => c.User)
-                .OrderByDescending(p => p.User)
+                .OrderByDescending(p => p.PostTimeStamp)
                 .ToListAsync();
         }
 
