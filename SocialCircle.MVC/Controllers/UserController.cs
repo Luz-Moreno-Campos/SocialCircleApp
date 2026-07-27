@@ -7,10 +7,12 @@ namespace SocialCircle.MVC.Controllers
     public class UserController : Controller
     {
         private readonly UserService _userService;
+        private readonly PostService _postService; 
 
-        public UserController(UserService userService)
+        public UserController(UserService userService, PostService postService) 
         {
             _userService = userService;
+            _postService = postService; 
         }
 
         [HttpGet]
@@ -32,7 +34,7 @@ namespace SocialCircle.MVC.Controllers
 
             HttpContext.Session.SetInt32("CurrentUserId", (int)user.UserId);
 
-            return RedirectToAction("Profile", new { id = user.UserId });
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -46,9 +48,11 @@ namespace SocialCircle.MVC.Controllers
         public IActionResult Profile(long id)
         {
             var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
-
+            
             var vm = _userService.GetProfile(id, currentUserId.Value);
 
+            vm.Posts = _postService.GetPostsByUser(id);
+            
             return View("Profile", vm);
         }
     }

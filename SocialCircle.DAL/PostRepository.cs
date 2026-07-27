@@ -22,7 +22,7 @@ namespace SocialCircle.DAL
                 .ToListAsync();
         }
 
-        public async Task<Post?> GetPostByIdAsync(int id)
+        public async Task<Post?> GetPostByIdAsync(long id)
         {
             return await _context.Posts
                 .Include(p => p.User)
@@ -46,5 +46,17 @@ namespace SocialCircle.DAL
                 await _context.SaveChangesAsync();
             }
         }
+
+        //Added by Luz
+        public List<Post> GetPostsByUser(long userId)
+        {
+            return _context.Posts
+                .Where(p => p.UserId == userId)
+                .Include(p => p.Comments)  
+                .OrderByDescending(p => p.PostTimeStamp)
+                .ToList();
+        }
+
+
     }
 }
