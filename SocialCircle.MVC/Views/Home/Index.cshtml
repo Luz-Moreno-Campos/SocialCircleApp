@@ -29,7 +29,11 @@ else
                        asp-action="Profile"
                        asp-route-id="@post.UserId"
                        class="fw-bold text-primary text-decoration-none fs-5">
+<<<<<<< HEAD
+                        @@(post.User != null ? post.User.UserName : $"User #{post.UserId}")
+=======
                         @(post.User != null ? post.User.UserName : $"User #{post.UserId}")
+>>>>>>> b4dc91cc58f5f656edc61bfb6e895157761c2177
                     </a>
                     <small class="text-muted">@post.PostTimeStamp.ToString("g")</small>
                 </div>
@@ -52,7 +56,11 @@ else
                                    asp-action="Profile"
                                    asp-route-id="@comment.UserId"
                                    class="fw-bold text-decoration-none text-dark small">
+<<<<<<< HEAD
+                                    @@(comment.User != null ? comment.User.UserName : $"User #{comment.UserId}")
+=======
                                     @(comment.User != null ? comment.User.UserName : $"User #{comment.UserId}")
+>>>>>>> b4dc91cc58f5f656edc61bfb6e895157761c2177
                                 </a>
 
                                 <span class="small ms-1">@comment.CommentText</span>
