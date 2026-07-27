@@ -28,9 +28,9 @@ namespace SocialCircle.MVC.Controllers
                 Followers = followers
             };
 
-            ViewBag.OwnerName = user.UserName;   // ← agregado para mostrar el nombre del dueño
+            ViewBag.OwnerName = user.UserName;   
 
-            return View(followers);              // ← tu vista usa List<User>
+            return View(followers);              
         }
 
         [HttpGet]
@@ -47,9 +47,9 @@ namespace SocialCircle.MVC.Controllers
                 Following = following
             };
 
-            ViewBag.OwnerName = user.UserName;   // ← agregado para mostrar el nombre del dueño
+            ViewBag.OwnerName = user.UserName;  
 
-            return View(following);              // ← tu vista usa List<User>
+            return View(following);              
         }
 
 

@@ -18,7 +18,7 @@ namespace SocialCircle.DAL
             return _context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
         }
 
-        public User GetUserById(int userId)
+        public User GetUserById(long userId)
         {
             return _context.Users.FirstOrDefault(u => u.UserId == userId);
         }
