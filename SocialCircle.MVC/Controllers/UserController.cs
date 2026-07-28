@@ -44,16 +44,25 @@ namespace SocialCircle.MVC.Controllers
             return RedirectToAction("Login");
         }
 
+      
         [HttpGet]
         public IActionResult Profile(long id)
         {
             var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
-            
-            var vm = _userService.GetProfile(id, currentUserId.Value);
 
-            vm.Posts = _postService.GetPostsByUser(id);
-            
-            return View("Profile", vm);
+            if (currentUserId == null)
+
+                return RedirectToAction("Login", "User");
+
+            var userProfile = _userService.GetProfile(id, currentUserId.Value);
+
+            if (userProfile== null)
+                return NotFound(); 
+
+            userProfile.Posts = _postService.GetPostsByUser(id);
+
+            return View("Profile", userProfile);
         }
+
     }
 }

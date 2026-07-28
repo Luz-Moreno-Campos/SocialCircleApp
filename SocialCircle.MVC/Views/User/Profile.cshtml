@@ -37,19 +37,19 @@
         {
             <form method="post" action="/Follow/Unfollow">
                 <input type="hidden" name="targetId" value="@Model.UserId" />
-                <button class="btn btn-danger">Unfollow</button>
+                <button class="btn btn-danger mb-3">Unfollow</button>
             </form>
         }
         else
         {
             <form method="post" action="/Follow/Follow">
                 <input type="hidden" name="targetId" value="@Model.UserId" />
-                <button class="btn btn-primary">Follow</button>
+                <button class="btn btn-primary mb-3">Follow</button>
             </form>
         }
     }
 
-    <h4 class="mb-3">Posts</h4>
+    <h4 class="mb-4">Posts</h4>
 
     @if (Model.Posts != null && Model.Posts.Any())
     {
