@@ -45,7 +45,7 @@ else
 
                     <div class="d-flex align-items-center mb-3">
                         <span class="me-3">
-                            Likes: @ViewBag.LikeCount
+                            Likes: @SocialCircle.MVC.Controllers.LikesController.GetLikeCount(post.PostId)
                         </span>
 
                         <span>
