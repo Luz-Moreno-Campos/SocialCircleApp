@@ -11,12 +11,17 @@ namespace SocialCircle.MVC.Controllers
             new Like { LikeId = 2, UserId = 2, PostId = 1 }
         };
 
+<<<<<<< HEAD
         // Returns the number of likes for one post
         public static int GetLikeCount(int postId)
+=======
+        public IActionResult Index()
+>>>>>>> origin/master
         {
-            return likes.Count(l => l.PostId == postId);
+            return View(likes);
         }
 
+<<<<<<< HEAD
         internal static object? GetLikeCount(long postId)
         {
             throw new NotImplementedException();
@@ -49,5 +54,20 @@ namespace SocialCircle.MVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+=======
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Like like)
+        {
+            like.LikeId = likes.Count + 1;
+            likes.Add(like);
+
+            return RedirectToAction("Index");
+        } 
+>>>>>>> origin/master
     }
 }

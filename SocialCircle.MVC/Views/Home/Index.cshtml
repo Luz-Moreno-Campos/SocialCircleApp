@@ -18,6 +18,18 @@
 }
 else
 {
+    <div class="card p-4 mb-4 shadow-sm bg-light">
+        <h3 class="mb-3">Share with your Circle</h3>
+        <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <textarea name="TextContent" id="TextContent" class="form-control" rows="3" placeholder= "What are you thinking?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+    </div>
+
     <h2 class="mb-4">Posts from your Circle</h2>
 
     @foreach (var post in Model)
@@ -43,6 +55,7 @@ else
                         Comments (@(post.Comments?.Count ?? 0))
                     </h6>
 
+<<<<<<< HEAD
                     <div class="d-flex align-items-center mb-3">
                         <span class="me-3">
                             Likes: @SocialCircle.MVC.Controllers.LikesController.GetLikeCount(post.PostId)
@@ -59,6 +72,8 @@ else
                              Like
                         </button>
                     </form>
+=======
+>>>>>>> origin/master
                     <div id="comment-list-@post.PostId">
                         @if (post.Comments != null && post.Comments.Any())
                         {
@@ -92,7 +107,7 @@ else
                         <input type="hidden" name="userId" value="@(Context.Session.GetInt32("UserId") ?? 1)" />
                         <div class="input-group input-group-sm">
                             <input type="text" name="text" class="form-control comment-input" placeholder="Write a comment..." required />
-                            <button type="submit" class="btn btn-primary">Comment</button>
+                            <button type="submit" class="btn btn-primary ms-3">Comment</button>
                         </div>
                     </form>
                 </div>
