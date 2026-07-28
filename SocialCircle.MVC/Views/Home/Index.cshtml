@@ -43,6 +43,22 @@ else
                         Comments (@(post.Comments?.Count ?? 0))
                     </h6>
 
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="me-3">
+                            Likes: @ViewBag.LikeCount
+                        </span>
+
+                        <span>
+                            Comments: @(post.Comments?.Count ?? 0)
+                        </span>
+                    </div>
+                    <form asp-controller="Likes" asp-action="Create" method="post" class="mb-3">
+                        <input type="hidden" name="postId" value="@post.PostId" />
+
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                             Like
+                        </button>
+                    </form>
                     <div id="comment-list-@post.PostId">
                         @if (post.Comments != null && post.Comments.Any())
                         {

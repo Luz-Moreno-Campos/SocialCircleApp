@@ -11,23 +11,38 @@ namespace SocialCircle.MVC.Controllers
             new Like { LikeId = 2, UserId = 2, PostId = 1 }
         };
 
-        public IActionResult Index()
+
+        public static int GetLikeCount(int postId)
         {
-            return View(likes);
+            return likes.Count(l => l.PostId == postId);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+    
         [HttpPost]
-        public IActionResult Create(Like like)
+        public IActionResult Create(int postId)
         {
-            like.LikeId = likes.Count + 1;
+            var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
+
+          
+            if (currentUserId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
+            var like = new Like
+            {
+                LikeId = likes.Count + 1,
+                UserId = currentUserId.Value,
+                PostId = postId
+            };
+
+
             likes.Add(like);
 
-            return RedirectToAction("Index");
-        } 
+
+    
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
