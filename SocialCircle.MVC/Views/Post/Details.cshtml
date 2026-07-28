@@ -61,33 +61,33 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-    $('#ajax-comment-form').on('submit', function (e) {
-    e.preventDefault(); // Stops the page from redirecting
+    $(document).ready(function() {
+        $('#ajax-comment-form').on('submit', function(e) {
+            e.preventDefault(); // Stops the page from redirecting
 
-    var form = $(this);
-    var postId = form.find('input[name="postId"]').val();
-    var userId = $('#comment-userid').val();
-    var text = $('#comment-text').val();
+            var form = $(this);
+            var postId = form.find('input[name="postId"]').val();
+            var userId = $('#comment-userid').val();
+            var text = $('#comment-text').val();
 
-    $.ajax({
-    url: '@Url.Action("AddComment", "Post")',
-    type: 'POST',
-    data: form.serialize(),
-    success: function (response) {
-    $('#no-comments-msg').remove();
+            $.ajax({
+                url: '@Url.Action("AddComment", "Post")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    $('#no-comments-msg').remove();
 
-    var currentTime = new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
-    var newCommentHtml = '<li class="list-group-item"><div><strong>User #' + userId + ':</strong> ' + text + '<br /><small class="text-muted">' + currentTime + '</small></div></li>';
+                    var currentTime = new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+                    var newCommentHtml = '<li class="list-group-item"><div><strong>User #' + userId + ':</strong> ' + text + '<br /><small class="text-muted">' + currentTime + '</small></div></li>';
 
-    $('#comment-list').append(newCommentHtml);
+                    $('#comment-list').append(newCommentHtml);
 
-    $('#comment-text').val('');
-    },
-    error: function () {
-    alert('Error posting comment. Please try again.');
-    }
-    });
-    });
+                    $('#comment-text').val('');
+                },
+                error: function() {
+                    alert('Error posting comment. Please try again.');
+                }
+            });
+        });
     });
 </script>

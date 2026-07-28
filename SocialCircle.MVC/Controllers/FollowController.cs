@@ -14,13 +14,17 @@ namespace SocialCircle.MVC.Controllers
             _userService = userService;
             _followService = followService;
         }
-        [HttpGet]
+
         public IActionResult Followers(long id)
         {
             var user = _userService.GetUserById(id);
+
+            if (user == null)
+                return NotFound();
+
             var followers = _followService.GetFollowers(id);
 
-            var vm = new FollowersViewModel
+            var follower = new FollowersViewModel
             {
                 UserId = user.UserId,
                 UserName = user.UserName,
@@ -28,18 +32,23 @@ namespace SocialCircle.MVC.Controllers
                 Followers = followers
             };
 
-            ViewBag.OwnerName = user.UserName;   
+            ViewBag.OwnerName = user.UserName;
 
-            return View(followers);              
+            return View(followers);
         }
+
 
         [HttpGet]
         public IActionResult Following(long id)
         {
             var user = _userService.GetUserById(id);
+
+            if (user == null)
+                return NotFound();
+
             var following = _followService.GetFollowing(id);
 
-            var vm = new FollowingViewModel
+            var newFollowing = new FollowingViewModel
             {
                 UserId = user.UserId,
                 UserName = user.UserName,
@@ -47,9 +56,9 @@ namespace SocialCircle.MVC.Controllers
                 Following = following
             };
 
-            ViewBag.OwnerName = user.UserName;  
+            ViewBag.OwnerName = user.UserName;
 
-            return View(following);              
+            return View(following);
         }
 
 
@@ -58,15 +67,22 @@ namespace SocialCircle.MVC.Controllers
         {
             var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
 
+            if (currentUserId == null)
+                return RedirectToAction("Login", "User");
+
             _followService.Follow(currentUserId.Value, targetId);
 
             return Redirect("/User/Profile/" + targetId);
         }
 
+
         [HttpPost]
         public IActionResult Unfollow(long targetId)
         {
             var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
+
+            if (currentUserId == null)
+                return RedirectToAction("Login", "User");
 
             _followService.Unfollow(currentUserId.Value, targetId);
 
