@@ -43,38 +43,39 @@ else
                         Comments (@(post.Comments?.Count ?? 0))
                     </h6>
 
-                    @if (post.Comments != null && post.Comments.Any())
-                    {
-                        @foreach (var comment in post.Comments)
+                    <div id="comment-list-@post.PostId">
+                        @if (post.Comments != null && post.Comments.Any())
                         {
-                            <div class="comment-item mb-2 pb-2 border-bottom">
-                                <a asp-controller="User"
-                                   asp-action="Profile"
-                                   asp-route-id="@comment.UserId"
-                                   class="fw-bold text-decoration-none text-dark small">
-                                    @(comment.User != null ? comment.User.UserName : $"User #{comment.UserId}")
-                                </a>
+                            @foreach (var comment in post.Comments)
+                            {
+                                <div class="comment-item mb-2 pb-2 border-bottom">
+                                    <a asp-controller="User"
+                                       asp-action="Profile"
+                                       asp-route-id="@comment.UserId"
+                                       class="fw-bold text-decoration-none text-dark small">
+                                        @(comment.User != null ? comment.User.UserName : $"User #{comment.UserId}")
+                                    </a>
 
-                                <span class="small ms-1">@comment.CommentText</span>
+                                    <span class="small ms-1">@comment.CommentText</span>
 
-                                <div class="text-muted extra-small" style="font-size: 0.75rem;">
-                                    @comment.CommentTimeStamp.ToString("g")
+                                    <div class="text-muted extra-small" style="font-size: 0.75rem;">
+                                        @comment.CommentTimeStamp.ToString("g")
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
-                    }
-                    else
-                    {
-                        <p class="text-muted small mb-3">No comments yet.</p>
-                    }
+                        else
+                        {
+                            <p class="text-muted small mb-3 no-comments-msg">No comments yet.</p>
+                        }
+                    </div>
 
-                    <form asp-controller="Post" asp-action="AddComment" method="post" class="mt-3">
+                    <form class="mt-3 ajax-comment-form" data-post-id="@post.PostId">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="postId" value="@post.PostId" />
                         <input type="hidden" name="userId" value="@(Context.Session.GetInt32("UserId") ?? 1)" />
-                        <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
                         <div class="input-group input-group-sm">
-                            <input type="text" name="text" class="form-control" placeholder="Write a comment..." required />
+                            <input type="text" name="text" class="form-control comment-input" placeholder="Write a comment..." required />
                             <button type="submit" class="btn btn-primary">Comment</button>
                         </div>
                     </form>
@@ -83,3 +84,41 @@ else
         </div>
     }
 }
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.ajax-comment-form').on('submit', function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var postId = form.data('post-id');
+            var inputField = form.find('.comment-input');
+            var text = inputField.val();
+
+            $.ajax({
+                url: '@Url.Action("AddComment", "Post")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    var container = $('#comment-list-' + postId);
+                    container.find('.no-comments-msg').remove();
+
+                    var currentTime = new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+                    var newCommentHtml =
+                        '<div class="comment-item mb-2 pb-2 border-bottom">' +
+                        '<span class="fw-bold text-dark small">You</span>' +
+                        '<span class="small ms-1">' + text + '</span>' +
+                        '<div class="text-muted extra-small" style="font-size: 0.75rem;">' + currentTime + '</div>' +
+                        '</div>';
+
+                    container.append(newCommentHtml);
+                    inputField.val('');
+                },
+                error: function() {
+                    alert('Error posting comment.');
+                }
+            });
+        });
+    });
+</script>
