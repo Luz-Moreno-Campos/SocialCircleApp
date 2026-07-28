@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SocialCircle.BLL;
 using SocialCircle.DAL;
 using SocialCircle.Models;
@@ -17,9 +18,11 @@ namespace SocialCircle.MVC
             builder.Services.AddHttpContextAccessor();
 
 
-            builder.Services.AddDbContext<SocialCircleContext>();
+            builder.Services.AddDbContext<SocialCircleContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            
+
+
             builder.Services.AddTransient<UserRepository>();
             builder.Services.AddTransient<FollowRepository>();
 
