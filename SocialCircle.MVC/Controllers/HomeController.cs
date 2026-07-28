@@ -26,7 +26,7 @@ namespace SocialCircle.MVC.Controllers
                 return View();
             }
 
-            
+
             var posts = await _postService.GetAllPostsAsync();
             return View(posts);
         }
