@@ -21,44 +21,73 @@
 
     <h4>Comments</h4>
 
-    <ul class="list-group mb-4">
+    <ul class="list-group mb-4" id="comment-list">
         @if (Model.Comments != null && Model.Comments.Any())
         {
             @foreach (var comment in Model.Comments)
             {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item">
                     <div>
                         <strong>@@@(comment.User?.UserName ?? "User"):</strong> @comment.CommentText
                         <br />
                         <small class="text-muted">@comment.CommentTimeStamp.ToString("g")</small>
                     </div>
-                    <form asp-action="DeleteComment" method="post">
-                        <input type="hidden" name="id" value="@comment.CommentId" />
-                        <input type="hidden" name="postId" value="@Model.PostId" />
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                    </form>
                 </li>
             }
         }
         else
         {
-            <li class="list-group-item text-muted">No comments recorded yet.</li>
+            <li class="list-group-item text-muted" id="no-comments-msg">No comments recorded yet.</li>
         }
     </ul>
 
     <div class="card p-3 bg-light">
         <h5>Add a Comment</h5>
-        <form asp-action="AddComment" method="post">
+        <form id="ajax-comment-form">
+            @Html.AntiForgeryToken()
             <input type="hidden" name="postId" value="@Model.PostId" />
             <div class="mb-2">
                 <label for="userId" class="form-label">User ID</label>
-                <input type="number" name="userId" class="form-control" required />
+                <input type="number" name="userId" id="comment-userid" class="form-control" required />
             </div>
             <div class="mb-2">
                 <label for="text" class="form-label">Comment Text</label>
-                <textarea name="text" class="form-control" rows="3" required></textarea>
+                <textarea name="text" id="comment-text" class="form-control" rows="3" required></textarea>
             </div>
             <button type="submit" class="btn btn-success">Submit Comment</button>
         </form>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+    $('#ajax-comment-form').on('submit', function (e) {
+    e.preventDefault(); // Stops the page from redirecting
+
+    var form = $(this);
+    var postId = form.find('input[name="postId"]').val();
+    var userId = $('#comment-userid').val();
+    var text = $('#comment-text').val();
+
+    $.ajax({
+    url: '@Url.Action("AddComment", "Post")',
+    type: 'POST',
+    data: form.serialize(),
+    success: function (response) {
+    $('#no-comments-msg').remove();
+
+    var currentTime = new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+    var newCommentHtml = '<li class="list-group-item"><div><strong>User #' + userId + ':</strong> ' + text + '<br /><small class="text-muted">' + currentTime + '</small></div></li>';
+
+    $('#comment-list').append(newCommentHtml);
+
+    $('#comment-text').val('');
+    },
+    error: function () {
+    alert('Error posting comment. Please try again.');
+    }
+    });
+    });
+    });
+</script>
