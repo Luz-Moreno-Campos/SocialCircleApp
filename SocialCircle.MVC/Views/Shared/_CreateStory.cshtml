@@ -1,0 +1,20 @@
+<div class="card mb-4 shadow-sm bg-light">
+    <div class="card-body">
+
+        <h3 class="mb-3">Share your Story</h3>
+
+        <form asp-controller="Story" asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="userId" value="@Model.UserId" />
+
+            <div class="mb-3">
+                <textarea name="StoryText" class="form-control" rows="3" placeholder="What's your story?" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary"> Create Story </button>
+
+        </form>
+
+    </div>
+</div>

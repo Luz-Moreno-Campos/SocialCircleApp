@@ -12,17 +12,19 @@ namespace SocialCircle.BLL
         private readonly PostRepository _postRepository;
         private readonly FollowRepository _followRepository;
 
-        // Ferguson Repr
+        // Ferguson Repo
         private readonly StoryRepository _storyRepository;
 
         public UserService(UserRepository userRepository,
                            PostRepository postRepository,
-                           FollowRepository followRepository)
+                           FollowRepository followRepository,
+                           StoryRepository storyRepository)
         {
             _userRepository = userRepository;
             _postRepository = postRepository;
             _followRepository = followRepository;
-        }
+            _storyRepository = storyRepository;
+        } 
 
         public User ValidateLogin(string username, string password)
         {
@@ -66,7 +68,8 @@ namespace SocialCircle.BLL
             bool isFollowing = _followRepository.IsFollowing(currentUserId, userId);
 
             // Ferguson Calls
-            var story = _storyRepository.GetStory((int)userId);
+            int current = (int)userId;
+            var story = _storyRepository.GetStory(current);
             return new UserViewModel
             {
                 UserId = user.UserId,
@@ -84,8 +87,6 @@ namespace SocialCircle.BLL
                 IsOwnProfile = isOwnProfile,
                 IsFollowing = isFollowing,
 
-                // Ferguson Code
-                userStory = story
             };
         }
 

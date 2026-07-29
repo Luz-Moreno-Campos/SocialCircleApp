@@ -25,7 +25,7 @@ namespace SocialCircle.Models.ViewModels
         public List<User> Following { get; set; }
 
         // Ferguson Code for story function
-        public Story userStory {get; set;}
+        public List<Story> Stories {get; set;} = new List<Story>();
     }
 }
 

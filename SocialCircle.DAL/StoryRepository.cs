@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SocialCircle.DAL
 {
@@ -18,36 +19,54 @@ namespace SocialCircle.DAL
         
         public void Create (Story story)
         {
+            Console.WriteLine("Before SaveChanges");
+
             _context.Stories.Add(story);
             _context.SaveChanges();
+
+            Console.WriteLine("After SaveChanges");
         }
-        public Story GetStory(int id)
+
+        public Story? GetActiveStory(int userId)
         {
-            var thisStory = _context.Stories.FirstOrDefault(x => x.User.UserId == id);
-            return thisStory;
+            return _context.Stories
+                .FirstOrDefault(s =>
+                    s.UserId == userId &&
+                    s.ExpirationDate > DateTime.Now);
+        }
+        // public Story? GetStory(int id)
+        // {
+        //     var thisStory = _context.Stories.FirstOrDefault(x => x.User.UserId == id);
+        //     if (thisStory == null)
+        //     {
+        //         return null;
+        //     }
+        //     return thisStory;
+        // }
+
+        public Story? GetStory(int id)
+        {
+            return _context.Stories
+                .FirstOrDefault(s => s.StoryId == id);
         }
 
         public List<Story> GetAllStories()
         {
-            var allStories = _context.Stories.ToList();
-            return allStories;
+            return _context.Stories
+            .Where(s => s.ExpirationDate > DateTime.Now)
+            .ToList();
         }
-
-        public void updateStory(Story updatedStory)
+        public List<Story> GetStoriesByUser(int userId)
         {
-            var story = _context.Stories.FirstOrDefault(s => s.User.UserId == updatedStory.User.UserId);
-
-            if(story == null) return;
-            
-            story.StoryText = updatedStory.StoryText;
-            story.CreationTimestamp = DateTime.Now;
-
-            _context.SaveChanges();
+            return _context.Stories
+                .Where(s => s.UserId == userId &&
+                            s.ExpirationDate > DateTime.Now)
+                .OrderByDescending(s => s.CreationTimestamp)
+                .ToList();
         }
-
         public void deleteStory (int id)
         {
-            var story = _context.Stories.FirstOrDefault(s => s.User.UserId == id);
+            var story = _context.Stories.FirstOrDefault(s => s.StoryId == id);
 
             if (story == null) return;
 

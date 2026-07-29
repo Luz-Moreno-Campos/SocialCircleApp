@@ -3,6 +3,7 @@ using SocialCircle.BLL;
 using SocialCircle.Models;
 using SocialCircle.Models.ViewModels;
 
+
 namespace SocialCircle.MVC.Controllers
 {
     public class StoryController : Controller
@@ -24,34 +25,53 @@ namespace SocialCircle.MVC.Controllers
             return View(story);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        public IActionResult Create (Story story)
+        [HttpPost]
+        public IActionResult Create([Bind("StoryText")] Story story)
         {
             if (!ModelState.IsValid)
             {
-                return View(story);
+                return RedirectToAction("Profile", "User", new 
+                { 
+                    id = HttpContext.Session.GetInt32("CurrentUserId") 
+                });
             }
+
+            var userId = HttpContext.Session.GetInt32("CurrentUserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            story.UserId = userId.Value;
             story.CreationTimestamp = DateTime.Now;
             story.ExpirationDate = DateTime.Now.AddHours(24);
+
             _storyService.Create(story);
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Profile", "User", new { id = userId.Value });
         }
 
-        [HttpGet]
-        public IActionResult Edit (int id)
+        [HttpPost]
+        public IActionResult Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return null;
-            }
-            var story = _storyService.GetStory(id);
-            return View(story);
+            _storyService.Delete(id);
+
+            return RedirectToAction("Index", "Home");
         }
+
+        // [HttpGet]
+        // public IActionResult Edit (int id)
+        // {
+        //     var story = _storyService.GetStory(id);
+
+        //     if(story == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     return View(story);
+        // }
 
         // [HttpPost]
         // public IActionResult Edit (Post updatedPost)

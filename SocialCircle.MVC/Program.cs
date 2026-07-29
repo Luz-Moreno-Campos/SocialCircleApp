@@ -25,15 +25,15 @@ namespace SocialCircle.MVC
 
             builder.Services.AddTransient<UserRepository>();
             builder.Services.AddTransient<FollowRepository>();
-
+            builder.Services.AddTransient<StoryRepository>();
             builder.Services.AddTransient<PostRepository>();
             builder.Services.AddTransient<CommentRepository>();
 
             builder.Services.AddTransient<UserService>();
             builder.Services.AddTransient<FollowService>();
-
             builder.Services.AddTransient<PostService>();
             builder.Services.AddTransient<CommentService>();
+            builder.Services.AddTransient<StoryService>();
 
             var app = builder.Build();
 
