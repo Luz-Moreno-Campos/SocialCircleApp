@@ -11,7 +11,7 @@ public partial class Post
 
     public DateTime PostTimeStamp { get; set; }
 
-    public string? ImageUrl { get; set; }
+   
     public string TextContent { get; set; } = null!;
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

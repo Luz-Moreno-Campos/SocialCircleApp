@@ -56,10 +56,6 @@ else
                     </h6>
 
                     <div class="d-flex align-items-center mb-3">
-                        <span class="me-3">
-                            Likes: @SocialCircle.MVC.Controllers.LikesController.GetLikeCount(post.PostId)
-                        </span>
-
                     </div>
                     <form asp-controller="Likes" asp-action="Create" method="post" class="mb-3">
                         <input type="hidden" name="postId" value="@post.PostId" />
