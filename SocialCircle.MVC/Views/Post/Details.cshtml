@@ -11,7 +11,7 @@
         <div class="card-body">
             <h5 class="fw-bold">
                 <a asp-controller="User" asp-action="Profile" asp-route-id="@Model.UserId" class="text-decoration-none">
-                    @@@(Model.User?.UserName ?? "Unknown User")
+                    @(Model.User?.UserName ?? "Unknown User")
                 </a>
             </h5>
             <p class="fs-5">@Model.TextContent</p>
@@ -26,12 +26,19 @@
         {
             @foreach (var comment in Model.Comments)
             {
-                <li class="list-group-item">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div>
-                        <strong>@@@(comment.User?.UserName ?? "User"):</strong> @comment.CommentText
+                        <strong>@(comment.User?.UserName ?? "User"):</strong> @comment.CommentText
                         <br />
                         <small class="text-muted">@comment.CommentTimeStamp.ToString("g")</small>
                     </div>
+
+                    <form asp-controller="Post" asp-action="DeleteComment" method="post" class="mb-0">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@comment.CommentId" />
+                        <input type="hidden" name="postId" value="@Model.PostId" />
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                    </form>
                 </li>
             }
         }
@@ -63,7 +70,7 @@
 <script>
     $(document).ready(function() {
         $('#ajax-comment-form').on('submit', function(e) {
-            e.preventDefault(); // Stops the page from redirecting
+            e.preventDefault();
 
             var form = $(this);
             var postId = form.find('input[name="postId"]').val();
@@ -78,7 +85,10 @@
                     $('#no-comments-msg').remove();
 
                     var currentTime = new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
-                    var newCommentHtml = '<li class="list-group-item"><div><strong>User #' + userId + ':</strong> ' + text + '<br /><small class="text-muted">' + currentTime + '</small></div></li>';
+                    var newCommentHtml =
+                        '<li class="list-group-item d-flex justify-content-between align-items-start">' +
+                        '<div><strong>User #' + userId + ':</strong> ' + text +
+                        '<br /><small class="text-muted">' + currentTime + '</small></div></li>';
 
                     $('#comment-list').append(newCommentHtml);
 

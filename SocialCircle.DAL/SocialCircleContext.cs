@@ -17,15 +17,10 @@ public partial class SocialCircleContext : DbContext
     }
 
     public virtual DbSet<Comment> Comments { get; set; }
-
     public virtual DbSet<DirectMessage> DirectMessages { get; set; }
-
     public virtual DbSet<Follow> Follows { get; set; }
-
     public virtual DbSet<Post> Posts { get; set; }
-
     public virtual DbSet<Story> Stories { get; set; }
-
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -135,9 +130,8 @@ public partial class SocialCircleContext : DbContext
 
             entity.ToTable("User");
 
-            entity.HasIndex(e => e.Email, "UQ__User__A9D10534425F86FD").IsUnique();
-
-            entity.HasIndex(e => e.UserName, "UQ__User__C9F28456048E4268").IsUnique();
+            entity.HasIndex(e => e.Email).IsUnique();
+            entity.HasIndex(e => e.UserName).IsUnique();
 
             entity.Property(e => e.Bio)
                 .HasMaxLength(500)
@@ -155,39 +149,6 @@ public partial class SocialCircleContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            entity.HasMany(d => d.Posts).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "Like",
-                    r => r.HasOne<Post>().WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__Like__PostId__4AB81AF0"),
-                    l => l.HasOne<User>().WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__Like__UserId__49C3F6B7"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "PostId").HasName("PK__Like__8D29EA4D8BD08C4C");
-                        j.ToTable("Like");
-                    });
-
-            entity.HasMany(d => d.StoriesNavigation).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "StoryView",
-                    r => r.HasOne<Story>().WithMany()
-                        .HasForeignKey("StoryId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__StoryView__Story__5BE2A6F2"),
-                    l => l.HasOne<User>().WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__StoryView__UserI__5AEE82B9"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "StoryId").HasName("PK__StoryVie__8460E048D31478A4");
-                        j.ToTable("StoryView");
-                    });
         });
 
         OnModelCreatingPartial(modelBuilder);
@@ -195,3 +156,4 @@ public partial class SocialCircleContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
+

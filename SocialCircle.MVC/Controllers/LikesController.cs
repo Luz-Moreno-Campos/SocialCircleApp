@@ -11,12 +11,10 @@ namespace SocialCircle.MVC.Controllers
             new Like { LikeId = 2, UserId = 2, PostId = 1 }
         };
 
-       
         public IActionResult Index()
         {
             return View(likes);
         }
-
 
         [HttpPost]
         public IActionResult Create(int postId)
@@ -45,10 +43,10 @@ namespace SocialCircle.MVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // Método estático para usar en la vista
         public static int GetLikeCount(long postId)
         {
             return likes.Count(l => l.PostId == postId);
         }
-
     }
 }
