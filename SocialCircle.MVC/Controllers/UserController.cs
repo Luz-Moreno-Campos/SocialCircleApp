@@ -8,11 +8,14 @@ namespace SocialCircle.MVC.Controllers
     {
         private readonly UserService _userService;
         private readonly PostService _postService; 
+        private readonly StoryService _storyService;
 
-        public UserController(UserService userService, PostService postService) 
+        public UserController(UserService userService, PostService postService, StoryService storyService) 
         {
             _userService = userService;
             _postService = postService; 
+            // Ferguson added
+            _storyService = storyService;
         }
 
         [HttpGet]
@@ -51,15 +54,17 @@ namespace SocialCircle.MVC.Controllers
             var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
 
             if (currentUserId == null)
-
                 return RedirectToAction("Login", "User");
 
             var userProfile = _userService.GetProfile(id, currentUserId.Value);
 
-            if (userProfile== null)
-                return NotFound(); 
+            if (userProfile == null)
+                return NotFound();
 
             userProfile.Posts = _postService.GetPostsByUser(id);
+
+            // Ferguson added
+            userProfile.Stories = _storyService.GetStoriesByUser((int)id);
 
             return View("Profile", userProfile);
         }

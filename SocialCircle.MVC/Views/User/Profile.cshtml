@@ -11,9 +11,41 @@
         <div>
             <h2 class="mb-1">@Model.UserName</h2>
             <p class="text-muted mb-0">@Model.Bio</p>
-        </div>
+            @* <partial name="_UserStory" model="Model" /> *@
+        </div> 
     </div>
 
+    @if (Context.Session.GetInt32("CurrentUserId") == Model.UserId)
+    {
+        <partial name="_CreateStory" />
+    }
+    <h2>@Model.UserName's Stories</h2>
+
+    @if(Model.Stories.Any())
+    {
+        foreach(var story in Model.Stories)
+        {
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+
+                    <p class="mb-2">
+                        @story.StoryText
+                    </p>
+
+                    <small class="text-muted">
+                        @story.CreationTimestamp.ToString("g")
+                    </small>
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">
+            No stories yet.
+        </p>
+    }
     <div class="d-flex gap-4 mb-4">
        
         <a href="/Follow/Followers/@Model.UserId" class="text-decoration-none">

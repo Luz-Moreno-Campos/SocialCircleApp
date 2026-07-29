@@ -1,10 +1,11 @@
-@model IEnumerable<SocialCircle.Models.Post>
+@* @model IEnumerable<SocialCircle.Models.Post> *@
+@* Ferguson model *@
+@model SocialCircle.Models.ViewModels.HomeViewModel
 
 @{
     ViewData["Title"] = "Home Page";
 }
-
-@if (Model == null)
+@if (Model == null || Model.Posts == null)
 {
     <div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
         <h2 class="display-1 fw-bold">Welcome to Social Circle</h2>
@@ -18,6 +19,62 @@
 }
 else
 {
+    // Ferguson story display code 
+    <h2 class="mb-4">Stories from your Circle</h2>
+    @if (Model?.Stories != null && Model.Stories.Any())
+    {
+        
+        @foreach (var userStories in Model.Stories.GroupBy(s => s.UserId))
+        {
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <a asp-controller="User"
+                        asp-action="Profile"
+                        asp-route-id="@userStories.Key"
+                        class="fw-bold text-primary text-decoration-none fs-5">
+                            @userStories.First().User.UserName's Stories
+                        </a>
+                    </div>
+
+                    @foreach (var story in userStories)
+                    {
+                        <div class="border-bottom pb-2 mb-2">
+
+                            <p class="mb-1">
+                                @story.StoryText
+                            </p>
+
+                            <small class="text-muted">
+                                Created: @story.CreationTimestamp.ToString("g")
+                            </small>
+
+                            <form asp-controller="Story"
+                                asp-action="Delete"
+                                method="post"
+                                class="mt-2">
+
+                                <input type="hidden" name="id" value="@story.StoryId" />
+
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+                    }
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">No stories available.</p>
+    }
+    
     <div class="card p-4 mb-4 shadow-sm bg-light">
         <h3 class="mb-3">Share with your Circle</h3>
         <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
@@ -29,10 +86,11 @@ else
             <button type="submit" class="btn btn-primary">Post</button>
         </form>
     </div>
-
+    
+    
     <h2 class="mb-4">Posts from your Circle</h2>
 
-    @foreach (var post in Model)
+    @foreach (var post in Model.Posts)
     {
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
