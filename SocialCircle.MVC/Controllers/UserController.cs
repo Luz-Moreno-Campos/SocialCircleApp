@@ -14,6 +14,7 @@ namespace SocialCircle.MVC.Controllers
         {
             _userService = userService;
             _postService = postService; 
+            // Ferguson added
             _storyService = storyService;
         }
 
@@ -62,6 +63,7 @@ namespace SocialCircle.MVC.Controllers
 
             userProfile.Posts = _postService.GetPostsByUser(id);
 
+            // Ferguson added
             userProfile.Stories = _storyService.GetStoriesByUser((int)id);
 
             return View("Profile", userProfile);
