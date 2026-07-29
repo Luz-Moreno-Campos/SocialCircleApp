@@ -11,33 +11,23 @@ namespace SocialCircle.MVC.Controllers
             new Like { LikeId = 2, UserId = 2, PostId = 1 }
         };
 
-<<<<<<< HEAD
-        // Returns the number of likes for one post
-        public static int GetLikeCount(int postId)
-=======
+       
         public IActionResult Index()
->>>>>>> origin/master
         {
             return View(likes);
         }
 
-<<<<<<< HEAD
-        internal static object? GetLikeCount(long postId)
-        {
-            throw new NotImplementedException();
-        }
 
         [HttpPost]
         public IActionResult Create(int postId)
         {
-            var currentUserId = HttpContext.Session.GetInt32("CurrentUserId");
+            var currentUserId = HttpContext.Session.GetInt32("UserId");
 
             if (currentUserId == null)
             {
                 return RedirectToAction("Login", "User");
             }
 
-            // Prevent the same user from liking the same post twice
             bool alreadyLiked = likes.Any(l =>
                 l.PostId == postId &&
                 l.UserId == currentUserId.Value);
@@ -54,20 +44,11 @@ namespace SocialCircle.MVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-=======
-        public IActionResult Create()
+
+        public static int GetLikeCount(long postId)
         {
-            return View();
+            return likes.Count(l => l.PostId == postId);
         }
 
-        [HttpPost]
-        public IActionResult Create(Like like)
-        {
-            like.LikeId = likes.Count + 1;
-            likes.Add(like);
-
-            return RedirectToAction("Index");
-        } 
->>>>>>> origin/master
     }
 }
